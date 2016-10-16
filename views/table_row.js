@@ -61,7 +61,7 @@ SC.TableRowView = SC.ListItemView.extend({
       context = context.push('<div class="cell col-'+index+'" style="left: '+left+'px; top: 0px; bottom: 0px; width: '+width+'px;">');
 
       if (contentCheckboxKey && contentCheckboxKey.contains(key)) {
-        var value = SC.get(content, key) || false;
+        var value = SC.getPath(content, key) || false;
         this.renderCheckbox(context, value, key);
       }
       else {
@@ -106,7 +106,7 @@ SC.TableRowView = SC.ListItemView.extend({
         $cell.css({ width: width+'px', left: left+'px', });
 
         if (contentCheckboxKey && contentCheckboxKey.contains(key)) {
-          var value = SC.get(content, key) || false;
+          var value = SC.getPath(content, key) || false;
           this.updateCheckbox($cell, value, key);
         }
         else {
@@ -251,11 +251,13 @@ SC.TableRowView = SC.ListItemView.extend({
       });
     }
 
+    var editableKeys = this.get('editableKeys');
+    var keyInEditableKeys = editableKeys && editableKeys.indexOf(key) !== -1;
 
     source
       .set('controlSize', SC.SMALL_CONTROL_SIZE)
       .set('isSelected', state && (state !== SC.MIXED_STATE))
-      .set('isEnabled', this.get('isEnabled') && this.get('contentIsEditable'))
+      .set('isEnabled', this.get('isEnabled') && this.get('contentIsEditable') && keyInEditableKeys)
       .set('isActive', this._checkboxIsActive)
       .set('title', '');
 
@@ -271,10 +273,14 @@ SC.TableRowView = SC.ListItemView.extend({
 
     var sources = this._tr_cbSources;
     var source = sources[key];
+
+    var editableKeys = this.get('editableKeys');
+    var keyInEditableKeys = editableKeys && editableKeys.indexOf(key) !== -1;
+
     source
       .set('controlSize', SC.SMALL_CONTROL_SIZE)
       .set('isSelected', state && (state !== SC.MIXED_STATE))
-      .set('isEnabled', this.get('isEnabled') && this.get('contentIsEditable'))
+      .set('isEnabled', this.get('isEnabled') && this.get('contentIsEditable') && keyInEditableKeys)
       .set('isActive', this._checkboxIsActive)
       .set('title', '');
 
@@ -294,7 +300,7 @@ SC.TableRowView = SC.ListItemView.extend({
   },
 
   _addCheckboxActiveState: function (key) {
-    if (this.get('isEnabled')) {
+    if (this.get('isEnabled') && this.get('editableKeys') && this.get('editableKeys').contains(key)) {
       if (this._checkboxRenderDelegate) {
         var sources = this._tr_cbSources;
         var source = sources[key];
@@ -370,7 +376,9 @@ SC.TableRowView = SC.ListItemView.extend({
       // update only if mouse inside on mouse up...
       var inCheckboxForKey = this._isInsideCheckbox(evt);
       if (inCheckboxForKey && inCheckboxForKey === this._isMouseDownOnCheckboxFor) {
-        this.toggleCheckbox(inCheckboxForKey);
+        if (this.get('editableKeys') && this.get('editableKeys').contains(inCheckboxForKey)) {
+          this.toggleCheckbox(inCheckboxForKey);
+        }
       }
 
       this._removeCheckboxActiveState();
