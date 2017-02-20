@@ -40,6 +40,7 @@ SC.TableRowView = SC.ListItemView.extend({
         content = this.get('content'),
         contentIndex = this.contentIndex,
         columns = this.getDelegateProperty('columns', this.displayDelegate),
+        showRowNumbers = this.getDelegateProperty('showRowNumbers', this.displayDelegate),
         contentCheckboxKey = this.contentCheckboxKey,
         columnsLength = columns.length,
         alternate = ((contentIndex % 2 === 0) ? 'even' : 'odd'),
@@ -53,12 +54,23 @@ SC.TableRowView = SC.ListItemView.extend({
 
     if (contentCheckboxKey) contentCheckboxKey = this.contentCheckboxKey = SC.makeArray(contentCheckboxKey);
 
+    var html;
+    console.log('showRowNumbers', showRowNumbers);
+    if (showRowNumbers) {
+      console.log('pushing rowIndex');
+      html = '<div class="cell row-index" style="left: %@px; top: 0px; bottom: 0px; width: %@px;"><div class="text">%@</div></div>'.fmt(left, 30, contentIndex + 1);
+      context.push(html);
+      left += 30;
+    }
+
     for (var index=0; index < columnsLength; index++) {
       col = columns[index];
       key = col.key;
 
       width = col.width || 0;
-      context = context.push('<div class="cell col-'+index+'" style="left: '+left+'px; top: 0px; bottom: 0px; width: '+width+'px;">');
+      html = '<div class="cell col-%@" style="left: %@px; top: 0px; bottom: 0px; width: %@px;">'.fmt(index, left, width);
+      // context = context.push('<div class="cell col-'+index+'" style="left: '+left+'px; top: 0px; bottom: 0px; width: '+width+'px;">');
+      context = context.push(html);
 
       if (contentCheckboxKey && contentCheckboxKey.contains(key)) {
         var value = SC.getPath(content, key) || false;
@@ -79,6 +91,7 @@ SC.TableRowView = SC.ListItemView.extend({
   update: function(jQuery) {
     var tableDelegate = this.get('tableDelegate'),
         columns = this.getPath('displayDelegate.columns'),
+        showRowNumbers = this.getPath('displayDelegate.showRowNumbers'),
         left = 3, width,
         content = this.get('content'),
         lastContent = this._lastContent,
@@ -95,6 +108,15 @@ SC.TableRowView = SC.ListItemView.extend({
 
     jQuery.removeClass(otherAlternate);
     jQuery.addClass(alternate);
+
+    if (showRowNumbers) {
+      $cell = jQuery.find('.cell.row-index');
+      $cell.css({ width: '30px', left: left + 'px' });
+
+      // var html = '<div class="cell row-index" style="left: %@px; top: 0px; bottom: 0px; width: %@px;">%@</div>'.fmt(left, 30, contentIndex + 1);
+      $cell.find('.text').html(contentIndex+1)
+      left += 30;
+    }
 
     if (content && columns && columns.isEnumerable) {
       for (var index=0; index < columnsLength; index++) {

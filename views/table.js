@@ -49,6 +49,8 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
 
   showAlternatingRows: true,
 
+  // showRowNumbers: true,
+
 	canReorderContent: false,
 
 	canDeleteContent: false,
@@ -190,6 +192,7 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
         ownerTableView: this,
         contentBinding: SC.Binding.from('content', this),
         columnsBinding: SC.Binding.from('columns', this).oneWay(),
+        showRowNumbersBinding: SC.Binding.from('showRowNumbers', this).oneWay(),
         selectionBinding: SC.Binding.from('selection', this),
 
         rowHeight: this.get('rowHeight'),
@@ -236,6 +239,7 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
       contentView: SC.TableHeaderView.extend({
         layout: { right: 0, minWidth: tableWidth },
         contentBinding: SC.Binding.from('columns', this),
+        showRowNumbersBinding: SC.Binding.from('showRowNumbers', this),
         exampleView: SC.TableColumnHeaderView,
         sortBinding: SC.Binding.from('sort', this),
         tableDelegateBinding: SC.Binding.from('tableDelegate', this).oneWay(),

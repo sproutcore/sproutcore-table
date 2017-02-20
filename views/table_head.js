@@ -46,7 +46,8 @@ SC.TableHeaderView = SC.CollectionView.extend({
   // PUBLIC METHODS
   layoutForContentIndex: function(contentIndex) {
     var content = this.get('content');
-    var left = 0, width, ret;
+    var showRowNumbers = this.get('showRowNumbers');
+    var left = showRowNumbers? 33: 0, width, ret;
 
     // TODO: Set up an internal lookup table of some sort to avoid the brute force looping search here.
     if (content && content.isEnumerable) {
