@@ -53,6 +53,8 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
 
 	canDeleteContent: false,
 
+  allowsDoubleClick: true,
+
   /*
     Target for action fired when double-clicking on a row
   */
@@ -208,6 +210,7 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
         actionBinding: SC.Binding.from('action', this).oneWay(),
         canReorderContentBinding: SC.Binding.from('canReorderContent', this).oneWay(),
 				canDeleteContentBinding: SC.Binding.from('canDeleteContent', this).oneWay(),
+        allowsDoubleClick: this.get('allowsDoubleClick'),
         // canEditContent: !!this.get('contentValueKey'),
         canEditContent: !!this.get('editableKeys'),
 
@@ -285,7 +288,6 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
   */
   tableColumnDidRequestSort: function(col, colIndex, direction) {
     //console.log('%@.tableColumnDidRequestSort(col: %@, colIndex: %@, direction: %@)'.fmt(this, col, colIndex, direction));
-    if (!col.get('isSortable')) return;
 
     var del = this.get('tableDelegate'),
       content = this.get('content'),

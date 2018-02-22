@@ -186,11 +186,10 @@ SC.TableHeaderView = SC.CollectionView.extend({
 	mouseDown: function(evt) {
     var itemView = this.itemViewForEvent(evt);
 
-    // If there is no header, we do not go futher
-    if (!itemView) return false;
-
-    if (evt.target.className === 'resize-handle') {
-      this._itemViewWidth = itemView.get('frame').width;
+    if (itemView) {
+      if (evt.target.className === 'resize-handle') {
+        this._itemViewWidth = itemView.get('frame').width;
+      }
     }
 
 		return sc_super();
@@ -205,22 +204,25 @@ SC.TableHeaderView = SC.CollectionView.extend({
 
   mouseDragged: function(evt) {
     var itemViewWidth = this._itemViewWidth,
-        info = this.mouseDownInfo || this.touchDownInfo,
-        event = info.event;
+        info = this.mouseDownInfo || this.touchDownInfo;
 
-    if (itemViewWidth) {
-      var itemView = info.itemView,
-          content = itemView.get('content');
+    if (info) {
+      var event = info.event;
 
-      var newWidth = Math.max(itemViewWidth + evt.pageX - event.pageX, itemView.get('minWidth'));
+      if (itemViewWidth) {
+        var itemView = info.itemView,
+            content = itemView.get('content');
 
-      content.setIfChanged('width', newWidth);
+        var newWidth = Math.max(itemViewWidth + evt.pageX - event.pageX, itemView.get('minWidth'));
 
-      this.invokeDelegateMethod('columnSizeDidChange', this, itemView, evt, newWidth);
+        content.setIfChanged('width', newWidth);
 
-      this.ownerTableView.columnsDidChange();
+        this.invokeDelegateMethod('columnSizeDidChange', this, itemView, evt, newWidth);
 
-      return true;
+        this.ownerTableView.columnsDidChange();
+
+        return true;
+      }
     }
 
     return sc_super();
