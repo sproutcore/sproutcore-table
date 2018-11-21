@@ -51,7 +51,6 @@
 
           &:hover {
             background-image: sc_static("images/grippy-hover.png");
-            cursor: ew-resize;
           }
         }
 
