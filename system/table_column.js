@@ -118,10 +118,8 @@ SC.TableColumn = SC.Object.extend({
   */
   classNames: null,
 
+  // TODO: Not working
   escapeHTML: false,
 
 
 });
-
-
-

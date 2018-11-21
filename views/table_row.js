@@ -33,7 +33,7 @@ SC.TableRowView = SC.ListItemView.extend({
     return this.getPath('displayDelegate.tableDelegate');
   }.property('displayDelegate').cacheable(),
 
-  
+
   render: function(context) {
     var tableDelegate = this.get('tableDelegate'),
         left = 3,
@@ -123,8 +123,8 @@ SC.TableRowView = SC.ListItemView.extend({
   updateContentObservers: function(content, lastContent) {
     if (content === lastContent) return;
 
-    if (lastContent) lastContent.removeObserver('*', this, 'displayDidChange');
-    if (content) content.addObserver('*', this, 'displayDidChange');
+    if (lastContent && lastContent.removeObserver) lastContent.removeObserver('*', this, 'displayDidChange');
+    if (content && content.addObserver) content.addObserver('*', this, 'displayDidChange');
   },
 
 
@@ -236,7 +236,3 @@ SC.TableRowView = SC.ListItemView.extend({
   },
 
 });
-
-
-
-

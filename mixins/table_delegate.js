@@ -76,7 +76,7 @@ SC.TableDelegate = {
 
   textForTableCellContent: function(content, key) {
     if (!content) return '';
-    var text = content.getPath(key);
+    var text = content.getPath ? content.getPath(key) : content[key];
     if (text == null) return '';
     if (SC.typeOf(text) === SC.T_STRING) text = SC.RenderContext.escapeHTML(text);
 
