@@ -221,6 +221,7 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
 
       }),
 
+      shouldResizeContentWidth: false,
       isVerticalScrollerVisibleBinding: SC.Binding.from('isVerticalScrollerVisible', this)
     });
     this._bodyScrollView = bodyScrollView;
