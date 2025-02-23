@@ -4,7 +4,7 @@
 //            Portions ©2011 Jonathan Lewis.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-
+import { SC } from 'sproutcore_next';
 
 /** @class
 
@@ -15,7 +15,7 @@
   @since SproutCore 1.10
 */
 
-SC.TableColumn = SC.Object.extend({
+export const TableColumn = SC.Object.extend({
 
   /**
     Walk like a duck

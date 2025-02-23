@@ -4,7 +4,7 @@
 //            Portions ©2011 Jonathan Lewis.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-
+import { SC } from 'sproutcore_next';
 /*globals SC*/
 
 
@@ -12,7 +12,7 @@
   Extends SC.CollectionView to render the table's header.
 */
 
-SC.TableHeaderView = SC.CollectionView.extend({
+export const TableHeaderView = SC.CollectionView.extend({
 
   // PUBLIC PROPERTIES
 
@@ -183,7 +183,7 @@ SC.TableHeaderView = SC.CollectionView.extend({
   },
 
 
-	mouseDown: function(evt) {
+	mouseDown: function mouseDown (evt) {
     var itemView = this.itemViewForEvent(evt);
 
     // If there is no header, we do not go futher
@@ -193,17 +193,17 @@ SC.TableHeaderView = SC.CollectionView.extend({
       this._itemViewWidth = itemView.get('frame').width;
     }
 
-		return sc_super();
+		return mouseDown.base.apply(this, arguments);
   },
 
   // Is not used and throw an error when dragging and realese an header at
   // the extrem rigth where there is no more header
   mouseMoved: function (ev) {
-    return YES;
+    return true;
   },
 
 
-  mouseDragged: function(evt) {
+  mouseDragged: function mouseDragged (evt) {
     var itemViewWidth = this._itemViewWidth,
         info = this.mouseDownInfo || this.touchDownInfo,
         event = info.event;
@@ -223,7 +223,7 @@ SC.TableHeaderView = SC.CollectionView.extend({
       return true;
     }
 
-    return sc_super();
+    return mouseDragged.base.apply(this, arguments);
   },
 
   mouseUp: function(evt) {

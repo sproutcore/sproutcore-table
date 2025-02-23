@@ -5,11 +5,12 @@
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
-/*globals SC*/
+import { SC } from 'sproutcore_next';
+import { TableDelegate } from '../mixins/table_delegate.js';
+import { TableRowView } from './table_row.js';
+import { TableHeaderView } from './table_head.js';
+import { TableColumnHeaderView } from './table_head_cell.js';
 
-sc_require('views/table_row');
-sc_require('views/table_head');
-sc_require('mixins/table_delegate');
 
 /*
   A TableView for viewing tabular data using Sproutcore.
@@ -21,7 +22,7 @@ sc_require('mixins/table_delegate');
 
 */
 
-SC.TableView = SC.View.extend(SC.TableDelegate, {
+export const TableView = SC.View.extend(TableDelegate, {
 
   classNames: 'sc-table-view',
 
@@ -146,7 +147,7 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
 
     // @if (debug)
     if (del && !del.isTableDelegate) {
-      SC.warn("A delegate is defined but it doesn't implement SC.TableDelegate.");
+      SC.warn("A delegate is defined but it doesn't implement TableDelegate.");
     }
     if (!del && content && !content.isTableDelegate) {
       SC.warn("content is defined but it doesn't implement SC.TableDelegate.", content);
@@ -175,8 +176,8 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
   }.property().cacheable(),
 
 
-  createChildViews: function() {
-    sc_super();
+  createChildViews: function createChildViews () {
+    createChildViews.base.apply(this, arguments);
 
     var headerScrollView, bodyScrollView, headerBackGroundView,
         headerHeight = this.get('headerHeight'),
@@ -194,7 +195,7 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
 
         rowHeight: this.get('rowHeight'),
 
-        exampleView: SC.TableRowView.design({
+        exampleView: TableRowView.design({
           contentCheckboxKey: this.get('contentCheckboxKey'),
           contentValueKey: this.get('contentValueKey'),
           editableKeys: this.get('editableKeys')
@@ -211,8 +212,8 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
         // canEditContent: !!this.get('contentValueKey'),
         canEditContent: !!this.get('editableKeys'),
 
-        _reconfigureItemView: function (itemView, attrs) {
-          sc_super();
+        _reconfigureItemView: function _reconfigureItemView (itemView, attrs) {
+          _reconfigureItemView.base.apply(this, arguments);
           itemView.notifyPropertyChange('width');
         }
 
@@ -233,10 +234,10 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
     headerScrollView = this.createChildView(SC.ScrollView, {
       classNames: 'sc-table-header-scroll-view',
       layout: { left: 0, right: 0, top: 0, height: headerHeight },
-      contentView: SC.TableHeaderView.extend({
+      contentView: TableHeaderView.extend({
         layout: { right: 0, minWidth: tableWidth },
         contentBinding: SC.Binding.from('columns', this),
-        exampleView: SC.TableColumnHeaderView,
+        exampleView: TableColumnHeaderView,
         sortBinding: SC.Binding.from('sort', this),
         tableDelegateBinding: SC.Binding.from('tableDelegate', this).oneWay(),
         ownerTableView: this,
@@ -249,7 +250,7 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
       // We have to keep a horizontal scroller, but we never want to see it in the header,
       // so make its thickness 0.
       horizontalScrollerView: SC.ScrollerView.extend({ scrollbarThickness: 0 }),
-      horizontalTouchScrollerView: SC.TouchScrollerView.extend({ scrollbarThickness: 0 }),
+      horizontalTouchScrollerView: SC.OverlayScrollerView.extend({ scrollbarThickness: 0 }),
 
       // Bind the horizontal scroll position to the body scroll view's position, so they
       // move in tandem.
@@ -355,7 +356,7 @@ SC.TableView = SC.View.extend(SC.TableDelegate, {
     var visibleWidth = this._bodyScrollView.getPath('containerView.frame').width;
     var newWidth = Math.max(tableWidth, visibleWidth);
 
-    //console.log('%@._updateTableLayout(width: %@)'.fmt(this, newWidth));
+    console.log('%@._updateTableLayout(width: %@)'.fmt(this, newWidth));
 
     this.beginPropertyChanges();
 

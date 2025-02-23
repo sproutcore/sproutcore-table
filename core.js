@@ -9,6 +9,6 @@
   SC framework namespace definition.
 */
 
-SC.SORT_DIRECTION_NONE = null;
-SC.SORT_DIRECTION_ASCENDING = 'asc';
-SC.SORT_DIRECTION_DESCENDING = 'desc';
+export const SORT_DIRECTION_NONE = null;
+export const SORT_DIRECTION_ASCENDING = 'asc';
+export const SORT_DIRECTION_DESCENDING = 'desc';

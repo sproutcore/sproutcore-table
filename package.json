@@ -1,0 +1,24 @@
+{
+  "name": "sproutcore-table",
+  "version": "1.0.0",
+  "description": "This is a table view for [Sproutcore](http://www.github.com/sproutcore/sproutcore).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sproutcore/sproutcore-table.git"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./css": "./resources/table.scss"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sproutcore/sproutcore-table/issues"
+  },
+  "homepage": "https://github.com/sproutcore/sproutcore-table#readme"
+}

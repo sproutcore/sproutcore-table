@@ -4,14 +4,14 @@
 //            Portions ©2011 Jonathan Lewis.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
+import { SC } from 'sproutcore_next';
 
-/*globals SC*/
 
 /*
   Item view used by SC.TableHeaderView to render a column header view.
 */
 
-SC.TableColumnHeaderView = SC.View.extend(SC.Control, {
+export const TableColumnHeaderView = SC.View.extend(SC.Control, {
 
   classNames: 'sc-table-column-header-view',
 

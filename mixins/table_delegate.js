@@ -4,6 +4,7 @@
 //            Portions ©2011 Jonathan Lewis.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
+import { SC } from 'sproutcore_next';
 
 /*globals SC*/
 
@@ -14,7 +15,7 @@
   property at it.  That object will then start getting these requests.
 */
 
-SC.TableDelegate = {
+export const TableDelegate = {
 
   /**
     Walk like a duck

@@ -4,7 +4,7 @@
 //            Portions ©2011 Jonathan Lewis.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-
+import { SC } from 'sproutcore_next';
 /*globals SC*/
 
 /*
@@ -12,7 +12,7 @@
   SC.TableDelegate.renderTableCellContent() to allow custom cell rendering.
 */
 
-SC.TableRowView = SC.ListItemView.extend({
+export const TableRowView = SC.ListItemView.extend({
 
   isReusable: true,
 
@@ -33,7 +33,7 @@ SC.TableRowView = SC.ListItemView.extend({
     return this.getPath('displayDelegate.tableDelegate');
   }.property('displayDelegate').cacheable(),
 
-  
+
   render: function(context) {
     var tableDelegate = this.get('tableDelegate'),
         left = 3,
@@ -188,25 +188,25 @@ SC.TableRowView = SC.ListItemView.extend({
     returned.
 
     @param evt {Event} the mouseUp event.
-    @returns {Boolean} YES if the mouse was on the content element itself.
+    @returns {Boolean} true if the mouse was on the content element itself.
   */
   contentHitTest: function (evt) {
     // if not content value is returned, not much to do.
     var del = this.displayDelegate;
     var labelKeys = this.getDelegateProperty('editableKeys', del);
-    if (!labelKeys) return NO;
+    if (!labelKeys) return false;
 
     // get the element to check for.
     var el = this.$label(evt)[0];
-    if (!el) return NO; // no label to check for.
+    if (!el) return false; // no label to check for.
 
     var cur = evt.target, layer = this.get('layer');
     while (cur && (cur !== layer) && (cur !== window)) {
-      if (cur === el) return YES;
+      if (cur === el) return true;
       cur = cur.parentNode;
     }
 
-    return NO;
+    return false;
   },
 
 
