@@ -11,7 +11,6 @@ import { SC } from 'sproutcore_next';
   An abstract object that manages the state of the columns behind a
   `SC.TableView`.
 
-  @extends SC.Object
   @since SproutCore 1.10
 */
 

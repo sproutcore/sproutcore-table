@@ -10,6 +10,7 @@ import { TableDelegate } from '../mixins/table_delegate.js';
 import { TableRowView } from './table_row.js';
 import { TableHeaderView } from './table_head.js';
 import { TableColumnHeaderView } from './table_head_cell.js';
+import { SORT_DIRECTION_ASCENDING, SORT_DIRECTION_DESCENDING, SORT_DIRECTION_NONE } from '../core.js';
 
 
 /*
@@ -290,7 +291,7 @@ export const TableView = SC.View.extend(TableDelegate, {
 
     var del = this.get('tableDelegate'),
       content = this.get('content'),
-      dir = direction ? direction : SC.SORT_DIRECTION_NONE,
+      dir = direction ? direction : SORT_DIRECTION_NONE,
       didSort = false, key;
 
     //console.log('%@._sortContent()'.fmt(this));
@@ -356,15 +357,12 @@ export const TableView = SC.View.extend(TableDelegate, {
     var visibleWidth = this._bodyScrollView.getPath('containerView.frame').width;
     var newWidth = Math.max(tableWidth, visibleWidth);
 
-    console.log('%@._updateTableLayout(width: %@)'.fmt(this, newWidth));
-
     this.beginPropertyChanges();
 
 
     if (this._headerScrollView) {
     	this._headerScrollView.adjust({ right: this._bodyScrollView.get('frame').width - visibleWidth });
     }
-
 
     if (this._headerView) {
       this._headerView.adjust({ minWidth: newWidth });
