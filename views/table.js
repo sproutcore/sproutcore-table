@@ -55,6 +55,8 @@ export const TableView = SC.View.extend(TableDelegate, {
 
 	canDeleteContent: false,
 
+  exampleView: TableRowView,
+
   /*
     Target for action fired when double-clicking on a row
   */
@@ -184,6 +186,11 @@ export const TableView = SC.View.extend(TableDelegate, {
         headerHeight = this.get('headerHeight'),
         tableWidth = this.get('tableWidth');
 
+    const exampleView = this.get('exampleView');
+    if (exampleView && !exampleView.isClass) {
+      exampleView = TableRowView;
+    }
+
     bodyScrollView = this.createChildView(SC.ScrollView, {
       classNames: 'sc-table-body-scroll-view',
       layout: { left: 0, right: 0, top: headerHeight, bottom: 0 },
@@ -196,7 +203,7 @@ export const TableView = SC.View.extend(TableDelegate, {
 
         rowHeight: this.get('rowHeight'),
 
-        exampleView: TableRowView.design({
+        exampleView: exampleView.design({
           contentCheckboxKey: this.get('contentCheckboxKey'),
           contentValueKey: this.get('contentValueKey'),
           editableKeys: this.get('editableKeys')
